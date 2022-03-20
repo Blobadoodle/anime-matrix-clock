@@ -14,14 +14,14 @@ from pynput import keyboard
 # CONFIG
 
 fontname   = "Hack-Regular.ttf" # Font (must be in same directory)
-fontsize   = 50  # Font size
-width      = 256 # Image size
-height     = 256
-filename   = "time.png" # Filename of imge output
-command    = "asusctl anime image -p time.png -s 2.25 -a 0.65 -x -1.5 -y 1.5" # Command to be run every minute. Make sure the -p is the same as the filename. Put all your fine tweaking here. 
+fontsize   = 16  # Font size
+width      = 64 # Image size
+height     = 36
+filename   = "time.gif" # Filename of imge output
+command    = "asusctl anime pixel-gif -p time.gif" # Command to be run every minute. Make sure the -p is the same as the filename. Put all your fine tweaking here.
 textcolour = (255, 255, 255) # Text colour
 timeformat = "%H:%M" # TODO: if you add %S it will still update every minute not second
-mode       = "RGB" 
+mode       = "RGB"
 keybind    = 269025089 # XF86Launch3
 
 # END CONFIG
@@ -37,10 +37,10 @@ def main():
 
 	img = Image.new(mode, (width, height)) # Create new image
 	draw = ImageDraw.Draw(img)
-	
+
 	w,h = draw.textsize(strtime, font=font) # Get size of text so we can center it
-	draw.text(((W-w)/2, (H-h)/2), strtime, textcolour,font=font) # Draw the text in the center
-	
+	draw.text(((W-w)/2, (H-h)/1.1), strtime, textcolour,font=font) # Draw the text in the center
+
 	img.save(filename)
 
 	system(command) # Update matrix
