@@ -13,7 +13,7 @@ Finally run the script with `python3 main.py`
 
 ## Credits
 
-[jakco](https://github.com/jakaco) for testing.\
+[jakaco](https://github.com/jakaco) for testing.\
 [source-foundry](https://github.com/source-foundry/) for [font](https://github.com/source-foundry/Hack)
 
 ![ga401qc](.github/laptop.png)
