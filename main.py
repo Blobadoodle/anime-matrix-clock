@@ -11,63 +11,66 @@ from datetime import datetime
 
 from pynput import keyboard
 
-fontname   = "Hack-Regular.ttf"
-fontsize   = 16
-width      = 64
+# CONFIG
+
+fontname   = "Hack-Regular.ttf" # Font (must be in same directory)
+fontsize   = 16  # Font size
+width      = 64 # Image size
 height     = 36
-filename   = "time.gif"
-command    = "asusctl anime pixel-gif -p time.gif"
-textcolour = (255, 255, 255)
-timeformat = "%H:%M"
+filename   = "time.gif" # Filename of imge output
+command    = "asusctl anime pixel-gif -p time.gif" # Command to be run every minute. Make sure the -p is the same as the filename. Put all your fine tweaking here.
+textcolour = (255, 255, 255) # Text colour
+timeformat = "%H:%M" # TODO: if you add %S it will still update every minute not second
 mode       = "RGB"
-keybind    = 269025089
+keybind    = 269025089 # XF86Launch3
 
+# END CONFIG
 
-font = ImageFont.truetype(fontname, fontsize)
+font = ImageFont.truetype(fontname, fontsize) # Register font
 W,H = (width, height)
 
 active = True
 
 def main():
-    now = datetime.now()
-    strtime = now.strftime(timeformat)
+	now = datetime.now() # Get the current time
+	strtime = now.strftime(timeformat) # Get time sstirng
 
-    img = Image.new(mode, (width, height))
-    draw = ImageDraw.Draw(img)
+	img = Image.new(mode, (width, height)) # Create new image
+	draw = ImageDraw.Draw(img)
 
-    w,h = draw.textsize(strtime, font=font)
-    draw.text(((W-w)/2, (H-h)/1.1), strtime, textcolour,font=font)
+	w,h = draw.textsize(strtime, font=font) # Get size of text so we can center it
+	draw.text(((W-w)/2, (H-h)/1.1), strtime, textcolour,font=font) # Draw the text in the center
 
-    img.save(filename)
+	img.save(filename)
 
-    system(command)
+	system(command) # Update matrix
 
 def cleanup(signal, frame):
-    system("asusctl anime -e false")
-    sys.exit(0)
+	system("asusctl anime -e false") # Turn off matrix on sigint
+	sys.exit(0)
 
 def on_press(key):
-    try:
-        vk = key.vk
-    except AttributeError:
-        vk = key.value.vk
-    if vk == keybind:
-        global active
-        active = not active
-        if active:
-            system("asusctl anime -e true")
-            main()
-        else:
-            system("asusctl anime -e false")
+	try: # Get keycode
+		vk = key.vk
+	except AttributeError:
+		vk = key.value.vk
+	if vk == keybind:
+		global active
+		active = not active # Invert active state
+		if active:
+			system("asusctl anime -e true") # Enable display
+			main() # Update display
+		else:
+			system("asusctl anime -e false") # Disable display
 
 if __name__ == "__main__":
-    system("asusctl anime -e true")
-    signal.signal(signal.SIGINT, cleanup)
-    listener = keyboard.Listener(
-        on_press=on_press
-    )
-    listener.start()
-    while True:
-        if active :
-            main()
-        time.sleep(60 - time.time() % 60)
+	system("asusctl anime -e true") # Enable display
+	signal.signal(signal.SIGINT, cleanup) # Register sigint handler
+	listener = keyboard.Listener( # Register keyboard listener
+		on_press=on_press
+	)
+	listener.start()
+	while True:
+		if active :
+			main()
+		time.sleep(60 - time.time() % 60) # Run at the start of every second
