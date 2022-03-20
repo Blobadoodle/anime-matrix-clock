@@ -13,7 +13,7 @@ from pynput import keyboard
 
 # CONFIG
 
-fontname   = "ARCADE_N.TTF" # Font (must be in same directory)
+fontname   = "Hack-Regular.ttf" # Font (must be in same directory)
 fontsize   = 50  # Font size
 width      = 256 # Image size
 height     = 256
