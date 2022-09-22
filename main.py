@@ -17,7 +17,7 @@ fontname   = "Hack-Regular.ttf" # Font (must be in same directory)
 fontsize   = 16  # Font size
 width      = 64 # Image size
 height     = 36
-filename   = "time.gif" # Filename of imge output
+filename   = "time.gif" # Filename of image output
 command    = "asusctl anime pixel-gif -p time.gif" # Command to be run every minute. Make sure the -p is the same as the filename. Put all your fine tweaking here.
 textcolour = (255, 255, 255) # Text colour
 timeformat = "%H:%M" # TODO: if you add %S it will still update every minute not second
@@ -33,7 +33,7 @@ active = True
 
 def main():
 	now = datetime.now() # Get the current time
-	strtime = now.strftime(timeformat) # Get time sstirng
+	strtime = now.strftime(timeformat) # Get time string
 
 	img = Image.new(mode, (width, height)) # Create new image
 	draw = ImageDraw.Draw(img)
@@ -65,7 +65,7 @@ def on_press(key):
 
 if __name__ == "__main__":
 	system("asusctl anime -e true") # Enable display
-	signal.signal(signal.SIGINT, cleanup) # Register sigint handler
+	signal.signal(signal.SIGINT, cleanup) # Register SIGINT handler
 	listener = keyboard.Listener( # Register keyboard listener
 		on_press=on_press
 	)
