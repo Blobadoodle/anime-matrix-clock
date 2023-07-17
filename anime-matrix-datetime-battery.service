@@ -5,7 +5,7 @@ After=asusd.service
 
 [Service]
 WorkingDirectory=/opt/anime-matrix-datetime-battery
-User=root
+User=%USER
 Type=simple
 ExecStart=python3 main.py
 ExecReload=/bin/kill -HUP $MAINPID
