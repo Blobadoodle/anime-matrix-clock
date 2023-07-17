@@ -1,0 +1,14 @@
+[Unit]
+Description=Displays current battery percentage, date & time on AniMe matrix.
+Requires=asusd.service
+After=asusd.service
+
+[Service]
+WorkingDirectory=/opt/anime-matrix-datetime-battery
+User=root
+Type=simple
+ExecStart=python3 main.py
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
