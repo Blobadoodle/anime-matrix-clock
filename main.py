@@ -11,7 +11,8 @@ import psutil
 import time
 from datetime import datetime
 
-from pynput import keyboard
+# Do not use ROG button, as access to the X server is not possible from systemd services.
+# from pynput import keyboard
 
 # VARS
 
@@ -77,10 +78,11 @@ def on_press(key):
 if __name__ == "__main__":
 	system("asusctl anime -e true") # Enable display
 	signal.signal(signal.SIGINT, cleanup) # Register SIGINT handler
-	listener = keyboard.Listener( # Register keyboard listener
-		on_press=on_press
-	)
-	listener.start()
+	# Do not use ROG button, as access to the X server is not possible from systemd services.
+	#listener = keyboard.Listener( # Register keyboard listener
+	#	on_press=on_press
+	#)
+	#listener.start()
 	while True:
 		if active :
 			main()
