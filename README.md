@@ -13,7 +13,6 @@ This works by creating an image with the current data every second and sending i
 
 ## Credits
 
-[jakaco](https://github.com/jakaco) for testing.\
-[source-foundry](https://github.com/source-foundry/) for the [font](https://github.com/source-foundry/Hack).
+[Blobadoodle](https://github.com/Blobadoodle) for creating the original repo [Blobadoodle/anime-matric-clock](https://github.com/Blobadoodle/anime-matrix-clock)!
 
 ![ga401qc](.github/laptop.png)
