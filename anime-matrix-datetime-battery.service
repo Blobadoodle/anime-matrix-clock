@@ -8,6 +8,7 @@ WorkingDirectory=/opt/anime-matrix-datetime-battery
 User=%USER
 Type=simple
 ExecStart=python3 main.py
+ExecStop=asusctl anime -e false
 ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
