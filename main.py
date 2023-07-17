@@ -6,42 +6,53 @@ from os import system
 import signal
 import sys
 
+import psutil
+
 import time
 from datetime import datetime
 
 from pynput import keyboard
 
-# CONFIG
+# VARS
 
 fontname   = "Hack-Regular.ttf" # Font (must be in same directory)
-fontsize   = 16  # Font size
-width      = 64 # Image size
-height     = 36
-filename   = "time.gif" # Filename of image output
-command    = "asusctl anime pixel-gif -p time.gif" # Command to be run every minute. Make sure the -p is the same as the filename. Put all your fine tweaking here.
+width      = 64 # Image width
+height     = 36 # Image height
+command    = "asusctl anime pixel-gif -p pixel.gif" # Command to be run every minute. Make sure the -p is the same as the filename. Put all your fine tweaking here.
 textcolour = (255, 255, 255) # Text colour
-timeformat = "%H:%M" # TODO: if you add %S it will still update every minute not second
-mode       = "RGB"
+refresh    = 1 # Time in seconds between refreshes
 keybind    = 269025089 # XF86Launch3
 
-# END CONFIG
+# END VARS
 
-font = ImageFont.truetype(fontname, fontsize) # Register font
+fontl = ImageFont.truetype(fontname, 10) # Register large font
+fonts = ImageFont.truetype(fontname, 8) # Register small font
 W,H = (width, height)
 
 active = True
 
 def main():
 	now = datetime.now() # Get the current time
-	strtime = now.strftime(timeformat) # Get time string
+	strtime = now.strftime("%H:%M:%S") # Get time string
+	strdate = now.strftime("%d.%m.") # Get date string
+	strbattery = str(round(psutil.sensors_battery().percent)) + "%" # Get battery level in percent
 
-	img = Image.new(mode, (width, height)) # Create new image
+        # Create new image
+	img = Image.new("RGB", (width, height))
 	draw = ImageDraw.Draw(img)
 
-	w,h = draw.textsize(strtime, font=font) # Get size of text so we can center it
-	draw.text(((W-w)/2, (H-h)/1.1), strtime, textcolour,font=font) # Draw the text in the center
+	# For development: Calculcate size and centered position.
+	#w = fonts.getmask(strbattery).getbbox()[2]
+	#h = fonts.getmask(strbattery).getbbox()[3]
+	#print("Width and height:", w, h)
+	#print("Calculated centered position:", (W-w)/2, (H-h)/1.1)
 
-	img.save(filename)
+	# Draw text
+	draw.text((9.0, 24.5), strtime, textcolour, font=fontl) # Time
+	draw.text((18.5, 15.5), strdate, textcolour, font=fonts) # Date
+	draw.text((27.5, 6.5), strbattery, textcolour, font=fonts) # Battery
+
+	img.save("pixel.gif")
 
 	system(command) # Update matrix
 
@@ -73,4 +84,4 @@ if __name__ == "__main__":
 	while True:
 		if active :
 			main()
-		time.sleep(60 - time.time() % 60) # Run at the start of every second
+		time.sleep(refresh - time.time() % refresh) # Run at the start of every $refresh second
