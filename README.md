@@ -7,9 +7,10 @@ This works by creating an image with the current data every second and sending i
 
 1. Ensure you have [`asusctl`](https://asus-linux.org/asusctl/), `python3` and `pip` installed
 1. cd into the `/opt` folder with `cd /opt`
-1. Clone the git repo with `git clone https://github.com/florian-h05/anime-matrix-datetime-battery/`
+1. Clone the git repo with `sudo git clone https://github.com/florian-h05/anime-matrix-datetime-battery.git`
 1. cd into that folder with `cd anime-matrix-datetime-battery`
 1. Install dependencies with `pip install -r requirements.txt`
+1. Set your username in the systemd service file with `sudo sed -i "s/%USER/$USER/g" anime-matrix-datetime-battery.service`
 1. Copy the systemd service file with `sudo cp anime-matrix-datetime-battery.service /etc/systemd/system`
 1. Enable and start the service with `sudo systemctl enable --now anime-matrix-datetime-battery`
 
